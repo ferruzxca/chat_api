@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require('../db');
 
 // Ruta: /historial
-router.get('/historial', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const [mensajes] = await db.promise().query(`
       SELECT 

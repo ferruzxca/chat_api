@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const db = require('./db');
+const app = express();
 
 // Rutas
 const authRoutes = require('./routes/auth');
@@ -11,7 +12,7 @@ const mensajeRoutes = require('./routes/mensajes');
 const historialRoutes = require('./routes/historial');
 
 
-const app = express();
+
 
 // Render ignora esta variable, pero la necesitamos para local
 const PORT = process.env.PORT || 3000;
