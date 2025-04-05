@@ -8,6 +8,8 @@ const db = require('./db');
 const authRoutes = require('./routes/auth');
 const usuarioRoutes = require('./routes/usuarios');
 const mensajeRoutes = require('./routes/mensajes');
+const historialRoutes = require('./routes/historial');
+
 
 const app = express();
 
@@ -22,6 +24,7 @@ app.use(express.json()); // Permite recibir JSON en requests
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/mensajes', mensajeRoutes);
+app.use('/historial', historialRoutes);
 
 // Ruta raíz opcional
 app.get('/', (req, res) => {
