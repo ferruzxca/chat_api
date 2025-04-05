@@ -24,7 +24,7 @@ app.use(express.json()); // Permite recibir JSON en requests
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/mensajes', mensajeRoutes);
-app.use('/historial', historialRoutes);
+app.use('/api/historial', historialRoutes);
 
 // Ruta raíz opcional
 app.get('/', (req, res) => {
