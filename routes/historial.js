@@ -20,10 +20,11 @@ router.get('/historial', async (req, res) => {
         ultima_fecha DESC
     `);
 
+
     res.json(mensajes);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al obtener historial' });
+   } catch (err) {
+    console.error("ERROR EN /historial:", err); // Mensaje más claro
+    res.status(500).json({ error: err.message });
   }
 });
 
