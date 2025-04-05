@@ -4,9 +4,9 @@ const router = express.Router();
 const db = require('../db');
 
 // Ruta: /historial
-router.get('/', async (req, res) => {
+router.get('/historial', async (req, res) => {
   try {
-    const [rows] = await db.execute(`
+    const [mensajes] = await db.promise().query(`
       SELECT 
         LEAST(emisor_id, receptor_id) AS usuario1,
         GREATEST(emisor_id, receptor_id) AS usuario2,
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
         ultima_fecha DESC
     `);
 
-    res.json(rows);
+    res.json(mensajes);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error al obtener historial' });
