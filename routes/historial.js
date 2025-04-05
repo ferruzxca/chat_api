@@ -11,18 +11,19 @@ router.get('/:emisorId/:receptorId', (req, res) => {
       DATE_FORMAT(m.fecha_envio, '[%d/%m/%y, %l:%i:%s %p]') AS fecha_formateada,
       u.nombre AS nombre_emisor,
       m.mensaje
-    FROM mensajes m
-    JOIN usuarios u ON m.emisor_id = u.id
-    WHERE 
-      (m.emisor_id = ? AND m.receptor_id = ?)
-      OR
-      (m.emisor_id = ? AND m.receptor_id = ?)
+    FROM mensajes AS m
+    INNER JOIN usuarios AS u ON m.emisor_id = u.id
+    WHERE (
+        m.emisor_id = ? AND m.receptor_id = ?
+      ) OR (
+        m.emisor_id = ? AND m.receptor_id = ?
+      )
     ORDER BY m.fecha_envio ASC
   `;
 
   db.query(sql, [emisorId, receptorId, receptorId, emisorId], (err, results) => {
     if (err) {
-      console.error("Error al obtener historial:", err);
+      console.error("Error SQL al obtener historial:", err);
       return res.status(500).json({ error: "Error al obtener historial" });
     }
 
