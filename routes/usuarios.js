@@ -7,12 +7,10 @@ const bcrypt = require('bcryptjs');
 router.post('/registrar', (req, res) => {
     const { nombre, apellido_paterno, apellido_materno, correo, password } = req.body;
 
-    // Validación de campos vacíos
     if (!nombre || !apellido_paterno || !apellido_materno || !correo || !password) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
-    // Validación de correo
     const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!correoRegex.test(correo)) {
         return res.status(400).json({ error: 'Correo electrónico no válido' });
@@ -22,19 +20,16 @@ router.post('/registrar', (req, res) => {
         return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres' });
     }
 
-    // Generar nombre de usuario
     function obtenerPrefijo(texto) {
         return texto.charAt(0).toUpperCase() + (texto.charAt(1)?.toLowerCase() || '');
     }
 
     const usuario = obtenerPrefijo(nombre) + obtenerPrefijo(apellido_paterno) + obtenerPrefijo(apellido_materno);
 
-    // Verificar si el correo o usuario ya existen
     db.query('SELECT * FROM usuarios WHERE correo = ? OR usuario = ?', [correo, usuario], (err, results) => {
         if (err) return res.status(500).json({ error: 'Error en la base de datos' });
         if (results.length > 0) return res.status(409).json({ error: 'Correo o nombre de usuario ya registrados' });
 
-        // Encriptar contraseña y registrar
         bcrypt.hash(password, 10, (err, hash) => {
             if (err) return res.status(500).json({ error: 'Error al encriptar la contraseña' });
 
@@ -49,3 +44,5 @@ router.post('/registrar', (req, res) => {
         });
     });
 });
+
+module.exports = router;
