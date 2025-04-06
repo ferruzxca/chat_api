@@ -4,11 +4,10 @@ const db = require('../db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Login
 router.post('/login', (req, res) => {
-    const { correo, password } = req.body;
+    const { user, password } = req.body;
 
-    db.query('SELECT * FROM usuarios WHERE correo = ?', [correo], (err, results) => {
+    db.query('SELECT * FROM usuarios WHERE usuario = ?', [user], (err, results) => {
         if (err) return res.status(500).json({ error: 'Error en el servidor' });
         if (results.length === 0) return res.status(401).json({ error: 'Usuario no encontrado' });
 
@@ -25,7 +24,7 @@ router.post('/login', (req, res) => {
                 usuario: {
                     id: usuario.id,
                     nombre: usuario.nombre,
-                    correo: usuario.correo
+                    usuario: usuario.usuario
                 }
             });
         });
