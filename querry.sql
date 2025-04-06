@@ -19,7 +19,5 @@ CREATE TABLE IF NOT EXISTS mensajes (
     emisor_id INT NOT NULL,
     receptor_id INT NOT NULL,
     mensaje TEXT NOT NULL,
-    fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (emisor_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (receptor_id) REFERENCES usuarios(id) ON DELETE CASCADE
+    fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP
 );
