@@ -9,7 +9,6 @@ router.get('/obtener', async (req, res) => {
             "SELECT id, emisor_id, receptor_id, mensaje, fecha_envio FROM mensajes ORDER BY fecha_envio ASC"
         );
 
-        // Convierte fechas a ISO 8601 (para compatibilidad con Retrofit y Android)
         const mensajesFormateados = mensajes.map(m => ({
             ...m,
             fecha_envio: new Date(m.fecha_envio).toISOString()
