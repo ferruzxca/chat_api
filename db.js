@@ -1,21 +1,16 @@
-require('dotenv').config(); // ¡Necesario para Render!
+// db.js
 
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+require('dotenv').config();
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: 3306
-});
-
-db.connect((err) => {
-    if (err) {
-        console.error('Error de conexión a la base de datos:', err.message);
-        return;
-    }
-    console.log('Conexión a la base de datos MySQL exitosa.');
+const db = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'ferr2812',
+    database: process.env.DB_NAME || 'chat_api',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
 module.exports = db;
