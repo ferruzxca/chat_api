@@ -16,7 +16,7 @@ router.get('/obtener', async (req, res) => {
         res.json(mensajesFormateados);
     } catch (error) {
         console.error('Error al obtener mensajes:', error);
-        res.status(500).json({ error: 'Error al obtener mensajes' });
+        res.status(500).json({ error: 'Error al obtener mensajes' }, error);
     }
 });
 
