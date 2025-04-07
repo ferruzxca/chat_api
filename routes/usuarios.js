@@ -18,7 +18,7 @@ router.post("/registrar", async (req, res) => {
     return res.status(400).json({ error: "Todos los campos son obligatorios" });
   }
 
-  const correoRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+  const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!correoRegex.test(correo)) {
     return res.status(400).json({ error: "Correo electrónico no válido" });
   }
