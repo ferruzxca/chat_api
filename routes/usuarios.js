@@ -70,4 +70,22 @@ router.post("/registrar", async (req, res) => {
   }
 });
 
+// ✅ Obtener todos los usuarios (solo id y nombre)
+router.get("/", async (req, res) => {
+  try {
+    const [usuarios] = await db.query(`
+      SELECT id, usuario AS nombre 
+      FROM usuarios 
+      ORDER BY nombre ASC
+    `);
+
+    res.json(usuarios);
+  } catch (error) {
+    console.error("❌ Error al obtener usuarios:", error.message);
+    res.status(500).json({ error: "Error al obtener usuarios" });
+  }
+});
+
+module.exports = router;
+
 module.exports = router;
