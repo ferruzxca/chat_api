@@ -9,32 +9,46 @@ dotenv.config(); // Cargar variables de entorno
 
 const app = express();
 
-// Middleware general
-app.use(cors()); // Permitir acceso desde apps móviles o frontends
-app.use(express.json()); // Parsear JSON automáticamente
-app.use(express.urlencoded({ extended: true })); // Para formularios
+// Middleware global
+app.use(cors()); // Permitir conexiones desde apps móviles / frontend
+app.use(express.json()); // Parseo automático de JSON
+app.use(express.urlencoded({ extended: true })); // Parseo de formularios
 
-// Rutas importadas
+// Importar rutas
 const authRoutes = require('./routes/auth');
 const usuarioRoutes = require('./routes/usuarios');
 const mensajeRoutes = require('./routes/mensajes');
 const historialRoutes = require('./routes/historial');
+const healthRoutes = require('./routes/health');
 
-// Rutas base organizadas por módulo
+
+// Asignar rutas base
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/mensajes', mensajeRoutes);
 app.use('/api/historial', historialRoutes);
+app.use('/api/health', healthRoutes);
 
-// Ruta raíz para ver si la API está viva
+
+// Ruta raíz (opcional para comprobar si está activa)
 app.get('/', (req, res) => {
     res.status(200).send('✅ API REST de Chat activa y funcionando.');
 });
 
-// Puerto local o asignado por Render
+// Puerto de ejecución (local o Render)
 const PORT = process.env.PORT || 3000;
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-    console.log(`🚀 Servidor escuchando en http://localhost:${PORT}`);
-});
+// Verificar conexión a la base de datos antes de iniciar
+db.getConnection()
+    .then(connection => {
+        console.log('✅ Conectado correctamente a la base de datos MySQL.');
+        connection.release();
+
+        app.listen(PORT, () => {
+            console.log(`🚀 Servidor escuchando en http://localhost:${PORT}`);
+        });
+    })
+    .catch(error => {
+        console.error('❌ Error al conectar con la base de datos:', error.message);
+        process.exit(1); // Detener el servidor si no hay conexión
+    });
