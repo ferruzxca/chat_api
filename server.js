@@ -32,7 +32,7 @@ app.use('/api/health', healthRoutes);
 
 // Ruta raíz (opcional para comprobar si está activa)
 app.get('/', (req, res) => {
-    res.status(200).send('✅ API REST de Chat activa y funcionando.');
+    res.status(200).send('✅ API activa y funcionando.');
 });
 
 // Puerto de ejecución (local o Render)
